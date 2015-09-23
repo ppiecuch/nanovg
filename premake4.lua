@@ -1,5 +1,7 @@
 
 local action = _ACTION or ""
+local glfwInc = "$(HOME)/Private/Projekty/_applicationSupport/GLFW/3.0.4/include"
+local glfwLib = "$(HOME)/Private/Projekty/_applicationSupport/GLFW/3.0.4/target-osx/src"
 
 solution "nanovg"
 	location ( "build" )
@@ -27,7 +29,7 @@ solution "nanovg"
 		kind "ConsoleApp"
 		language "C"
 		files { "example/example_gl2.c", "example/demo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -42,7 +44,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
@@ -56,7 +58,7 @@ solution "nanovg"
 		kind "ConsoleApp"
 		language "C"
 		files { "example/example_gl3.c", "example/demo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -71,7 +73,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
@@ -86,7 +88,7 @@ solution "nanovg"
 		language "C"
 		defines { "DEMO_MSAA" }
 		files { "example/example_gl2.c", "example/demo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -101,7 +103,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
@@ -116,7 +118,7 @@ solution "nanovg"
 		language "C"
 		defines { "DEMO_MSAA" }
 		files { "example/example_gl3.c", "example/demo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -131,7 +133,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
@@ -145,7 +147,7 @@ solution "nanovg"
 		kind "ConsoleApp"
 		language "C"
 		files { "example/example_fbo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -159,7 +161,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
@@ -173,7 +175,7 @@ solution "nanovg"
 		kind "ConsoleApp"
 		language "C"
 		files { "example/example_gles2.c", "example/demo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -187,7 +189,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
@@ -201,7 +203,7 @@ solution "nanovg"
 		kind "ConsoleApp"
 		language "C"
 		files { "example/example_gles3.c", "example/demo.c", "example/perf.c" }
-		includedirs { "src", "example" }
+		includedirs { "src", "example", glfwInc }
 		targetdir("build")
 		links { "nanovg" }
 
@@ -215,7 +217,7 @@ solution "nanovg"
 
 		configuration { "macosx" }
 			links { "glfw3" }
-			linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
+			linkoptions { "-L" .. glfwLib, "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo" }
 
 		configuration "Debug"
 			defines { "DEBUG" }
