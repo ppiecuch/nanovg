@@ -45,7 +45,7 @@ void renderPattern(NVGcontext* vg, NVGLUframebuffer* fb, float t, float pxRatio)
 	winWidth = (int)(fboWidth / pxRatio);
 	winHeight = (int)(fboHeight / pxRatio);
 
-	// Draw some stull to an FBO as a test
+	// Draw some stuff to an FBO as a test
 	nvgluBindFramebuffer(fb);
 	glViewport(0, 0, fboWidth, fboHeight);
 	glClearColor(0, 0, 0, 0);
@@ -153,9 +153,9 @@ int main()
 #endif
 
 #ifdef DEMO_MSAA
-	vg = nvgCreateGL3(NVG_STENCIL_STROKES);
+	vg = nvgCreateGL3(NVG_STENCIL_STROKES | NVG_DEBUG);
 #else
-	vg = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
+	vg = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
 #endif
 	if (vg == NULL) {
 		printf("Could not init nanovg.\n");
@@ -168,7 +168,8 @@ int main()
 	// Calculate pixel ration for hi-dpi devices.
 	pxRatio = (float)fbWidth / (float)winWidth;
 
-	fb = nvgluCreateFramebuffer(vg, (int)(100*pxRatio), (int)(100*pxRatio));
+	// The image pattern is tiled, set repeat on x and y.
+	fb = nvgluCreateFramebuffer(vg, (int)(100*pxRatio), (int)(100*pxRatio), NVG_IMAGE_REPEATX | NVG_IMAGE_REPEATY);
 	if (fb == NULL) {
 		printf("Could not create FBO.\n");
 		return -1;
@@ -215,7 +216,7 @@ int main()
 
 		// Use the FBO as image pattern.
 		if (fb != NULL) {
-			NVGpaint img = nvgImagePattern(vg, 0, 0, 100, 100, 0, fb->image, NVG_REPEATX|NVG_REPEATY, 1.0f);
+			NVGpaint img = nvgImagePattern(vg, 0, 0, 100, 100, 0, fb->image, 1.0f);
 			nvgSave(vg);
 
 			for (i = 0; i < 20; i++) {
@@ -258,7 +259,7 @@ int main()
 		glfwPollEvents();
 	}
 
-	nvgluDeleteFramebuffer(vg, fb);
+	nvgluDeleteFramebuffer(fb);
 
 	nvgDeleteGL3(vg);
 
