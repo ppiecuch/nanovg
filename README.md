@@ -102,7 +102,8 @@ See the header file [nanovg.h](/src/nanovg.h) for API reference.
 ## Ports
 
 - [DX11 port](https://github.com/cmaughan/nanovg) by [Chris Maughan](https://github.com/cmaughan)
-- [bgfx port](https://github.com/bkaradzic/bgfx/tree/master/examples/20-nanovg) by [Branimir Karadžić](https://github.com/bkaradzic) 
+- [bgfx port](https://github.com/bkaradzic/bgfx/tree/master/examples/20-nanovg) by [Branimir Karadžić](https://github.com/bkaradzic)
+- working on qt integration and examples
 
 ## Projects using NanoVG
 
