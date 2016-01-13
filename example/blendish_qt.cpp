@@ -257,8 +257,12 @@ void glfwSetScrollCallback(GLFWwindow *window, GLFWscrollfun scrollevent) { }
 void glfwMakeContextCurrent(GLFWwindow *window) { }
 static bool glewExperimental;
 bool glewInit() { return GLEW_OK; }
-void glfwSwapInterval(int swap) { }
-void glfwSetTime(int swap) { }
+void glfwSwapInterval(int swap) {
+	QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
+	fmt.setSwapInterval(swap);
+	QSurfaceFormat::setDefaultFormat(fmt);
+}
+void glfwSetTime(int time) { }
 #define glfwGetTime() getClock_ms()
 bool glfwWindowShouldClose(GLFWwindow *window) { return window->done(); }
 bool glfwSetWindowShouldClose(GLFWwindow *window, bool close) { window->setShouldClose(close); }
