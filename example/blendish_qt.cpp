@@ -51,6 +51,7 @@ class GLFWwindow : public QWindow, protected QOpenGLFunctions
 private:
     bool m_update_pending;
     bool m_auto_refresh;
+    bool m_should_close;
 	bool m_done;
 	QPoint m_cursor_pos;
 
@@ -60,6 +61,7 @@ private:
 public:
     Q_PROPERTY(bool done READ done WRITE setDone)
     Q_PROPERTY(bool alwaysRefresh READ alwaysRefresh WRITE setAlwaysRefresh)
+    Q_PROPERTY(bool shouldClose READ shouldClose WRITE setShouldClose)
     Q_PROPERTY(QPoint cursorPos READ cursorPos)
 	
 	GLFWerrorfun errorcb;
@@ -73,6 +75,9 @@ public:
     void setAlwaysRefresh(bool alwaysRefresh) { m_auto_refresh = alwaysRefresh; }
 	void setAutoRefresh(bool alwaysRefresh) { m_auto_refresh = alwaysRefresh; }
 
+    bool shouldClose() const { return m_should_close; }
+    void setShouldClose(bool shouldClose) { m_should_close = shouldClose; }
+
     QPoint cursorPos() const { return m_cursor_pos; }
 
 	void setRenderBlock(RenderBlock r) { m_render = r; }
@@ -83,6 +88,7 @@ public:
 	GLFWwindow(QWindow *parent = 0) : QWindow(parent)
     , m_update_pending(false)
     , m_auto_refresh(true)
+    , m_should_close(true)
     , m_context(0)
     , m_device(0)
     , m_render(0)
@@ -146,7 +152,7 @@ public:
 	}
 	void quit() { m_done = true; }
 protected:
-	void closeEvent(QCloseEvent *event) { quit(); }
+	void closeEvent(QCloseEvent *event) { if (m_should_close) quit(); }
 	bool event(QEvent *event)
 	{
 	    switch (event->type()) {
@@ -241,12 +247,13 @@ GLFWwindow* glfwCreateWindow(int w, int h, const char* title, GLFWmonitor* monit
 	GLFWwindow *win = new GLFWwindow;
 	win->resize(w, h);
 	win->show();
+	return win;
 }
-void glfwSetKeyCallback(GLFWwindow *window, GLFWkeyfun keycb);
-void glfwSetCharCallback(GLFWwindow *window, GLFWcharfun charevent);
-void glfwSetCursorPosCallback(GLFWwindow *window, GLFWcursorposfun cursorpos);
-void glfwSetMouseButtonCallback(GLFWwindow *window, GLFWmousebuttonfun mousebutton);    
-void glfwSetScrollCallback(GLFWwindow *window, GLFWscrollfun scrollevent);
+void glfwSetKeyCallback(GLFWwindow *window, GLFWkeyfun keycb) { }
+void glfwSetCharCallback(GLFWwindow *window, GLFWcharfun charevent) { }
+void glfwSetCursorPosCallback(GLFWwindow *window, GLFWcursorposfun cursorpos) { }
+void glfwSetMouseButtonCallback(GLFWwindow *window, GLFWmousebuttonfun mousebutton) { }
+void glfwSetScrollCallback(GLFWwindow *window, GLFWscrollfun scrollevent) { }
 void glfwMakeContextCurrent(GLFWwindow *window) { }
 static bool glewExperimental;
 bool glewInit() { return GLEW_OK; }
@@ -254,7 +261,7 @@ void glfwSwapInterval(int swap) { }
 void glfwSetTime(int swap) { }
 #define glfwGetTime() getClock_ms()
 bool glfwWindowShouldClose(GLFWwindow *window) { return window->done(); }
-bool glfwSetWindowShouldClose(GLFWwindow *window, bool close) { window->setDone(close); }
+bool glfwSetWindowShouldClose(GLFWwindow *window, bool close) { window->setShouldClose(close); }
 void glfwGetCursorPos(GLFWwindow *window, double *mx, double *my) {
 	*mx = window->cursorPos().x();
 	*my = window->cursorPos().y();
