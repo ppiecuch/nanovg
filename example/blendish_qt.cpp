@@ -375,8 +375,8 @@ void ui_handler(int item, UIevent event) {
 }
 
 void init(NVGcontext *vg) {
-    bndSetFont(nvgCreateFont(vg, "system", "../DejaVuSans.ttf"));
-    bndSetIconImage(nvgCreateImage(vg, "../blender_icons16.png", 0));
+    bndSetFont(nvgCreateFont(vg, "system", ":/res/fonts/DejaVuSans.ttf"));
+    bndSetIconImage(nvgCreateImage(vg, ":/res/images/blender_icons16.png", 0));
 }
 
 void testrect(NVGcontext *vg, UIrect rect) {
@@ -1512,14 +1512,13 @@ int main()
 
 	glfwSetTime(0);
 
-	double c = 0.0;
-	int total = 0;
+	__block double c = 0.0;
+	__block int total = 0;
 
-	int peak_items = 0;
-	unsigned int peak_alloc = 0;
+	__block int peak_items = 0;
+	__block unsigned int peak_alloc = 0;
 
-	while (!glfwWindowShouldClose(window))
-	{
+	window->setRenderBlock(^ void {
 		double mx, my;
 		int winWidth, winHeight;
 		int fbWidth, fbHeight;
@@ -1552,7 +1551,10 @@ int main()
             total = 0;
             c = 0.0;
         }
+	});
 
+	while (!glfwWindowShouldClose(window))
+	{
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

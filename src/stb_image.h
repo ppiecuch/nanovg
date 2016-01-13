@@ -570,11 +570,36 @@ static unsigned char *stbi_load_main(stbi__context *s, int *x, int *y, int *comp
    return stbi__errpuc("unknown image type", "Image not of any known type, or corrupt");
 }
 
+#ifdef QT_CORE_LIB
+# ifdef __cplusplus
+extern "C" {
+# endif
+ long qFileSize(const char *filename);
+ long qReadFile(const char *filename, char *buffer, long maxSize);
+# ifdef __cplusplus
+}
+# endif
+#endif
+
 #ifndef STBI_NO_STDIO
 STBIDEF unsigned char *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp)
 {
    FILE *f = fopen(filename, "rb");
    unsigned char *result;
+# ifdef QT_CORE_LIB
+   if (f == NULL) {
+		int data_size = qFileSize(filename);
+		if (data_size > 0) {
+			unsigned char *data = (unsigned char*)malloc(data_size);
+			if (data) {
+				qReadFile(filename,data,data_size);
+				result = stbi_load_from_memory(data,data_size,x,y,comp,req_comp);
+				free(data);
+				return result;
+			}
+		}
+   }
+# endif
    if (!f) return stbi__errpuc("can't fopen", "Unable to open file");
    result = stbi_load_from_file(f,x,y,comp,req_comp);
    fclose(f);
