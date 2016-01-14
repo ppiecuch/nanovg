@@ -263,7 +263,7 @@ void glfwSwapInterval(int swap) {
 	QSurfaceFormat::setDefaultFormat(fmt);
 }
 void glfwSetTime(int time) { }
-#define glfwGetTime() getClock_ms()
+#define glfwGetTime() (getClock_ms()/1000.0)
 bool glfwWindowShouldClose(GLFWwindow *window) { return window->done(); }
 bool glfwSetWindowShouldClose(GLFWwindow *window, bool close) { window->setShouldClose(close); }
 void glfwGetCursorPos(GLFWwindow *window, double *mx, double *my) {
