@@ -1,8 +1,6 @@
 /work in progress.../
 
-
 NanoVG
-==========
 
 NanoVG is small antialiased vector graphics rendering library for OpenGL. It has lean API modeled after HTML5 canvas API. It is aimed to be a practical and fun toolset for building scalable user interfaces and visualizations.
 
@@ -30,7 +28,9 @@ The first parameter defines flags for creating the renderer.
 - `NVG_ANTIALIAS` means that the renderer adjusts the geometry to include anti-aliasing. If you're using MSAA, you can omit this flags. 
 - `NVG_STENCIL_STROKES` means that the render uses better quality rendering for (overlapping) strokes. The quality is mostly visible on wider strokes. If you want speed, you can omit this flag.
 
-Currently there is an OpenGL back-end for NanoVG: [nanovg_gl.h](/src/nanovg_gl.h) for OpenGL 2.0, OpenGL ES 2.0, OpenGL 3.2 core profile and OpenGL ES 3. The implementation can be chosen using a define as in above example. See the header file and examples for further info.
+Currently there is an OpenGL back-end for NanoVG: [nanovg_gl.h](/src/nanovg_gl.h) for OpenGL 2.0, OpenGL ES 2.0, OpenGL 3.2 core profile and OpenGL ES 3. The implementation can be chosen using a define as in above example. See the header file and examples for further info. 
+
+*NOTE:* The render target you're rendering to must have stencil buffer.
 
 ## Drawing shapes with NanoVG
 
@@ -61,7 +61,7 @@ nvgFill(vg);
 ## Rendering is wrong, what to do?
 
 - make sure you have created NanoVG context using one of the `nvgCreatexxx()` calls
-- make sure you have initialised OpenGL with stencil buffer
+- make sure you have initialised OpenGL with *stencil buffer*
 - make sure you have cleared stencil buffer
 - make sure all rendering calls happen between `nvgBeginFrame()` and `nvgEndFrame()`
 - to enable more checks for OpenGL errors, add `NVG_DEBUG` flag to `nvgCreatexxx()`
@@ -103,7 +103,9 @@ See the header file [nanovg.h](/src/nanovg.h) for API reference.
 
 - [DX11 port](https://github.com/cmaughan/nanovg) by [Chris Maughan](https://github.com/cmaughan)
 - [bgfx port](https://github.com/bkaradzic/bgfx/tree/master/examples/20-nanovg) by [Branimir Karadžić](https://github.com/bkaradzic)
-- working on qt integration and examples
+- [Metal port](https://github.com/ollix/MetalNanoVG) by [Olli Wang](https://github.com/olliwang)
+- [bgfx port](https://github.com/bkaradzic/bgfx/tree/master/examples/20-nanovg) by [Branimir Karadžić](https://github.com/bkaradzic)
+- working on Qt integration and examples
 
 ## Projects using NanoVG
 

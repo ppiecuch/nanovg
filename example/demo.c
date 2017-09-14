@@ -2,10 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#ifdef NANOVG_GLEW
+#ifdef QT_GUI_LIB
+# include <qopengl.h>
+#else
+# ifdef NANOVG_GLEW
 #  include <GL/glew.h>
+# endif
+# include <GLFW/glfw3.h>
 #endif
-#include <GLFW/glfw3.h>
 #include "nanovg.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -834,6 +838,13 @@ int loadDemoData(NVGcontext* vg, DemoData* data)
 		printf("Could not add font bold.\n");
 		return -1;
 	}
+	data->fontEmoji = nvgCreateFont(vg, "emoji", "../example/NotoEmoji-Regular.ttf");
+	if (data->fontEmoji == -1) {
+		printf("Could not add font emoji.\n");
+		return -1;
+	}
+	nvgAddFallbackFontId(vg, data->fontNormal, data->fontEmoji);
+	nvgAddFallbackFontId(vg, data->fontBold, data->fontEmoji);
 
 	return 0;
 }
@@ -853,7 +864,7 @@ void drawParagraph(NVGcontext* vg, float x, float y, float width, float height, 
 {
 	NVGtextRow rows[3];
 	NVGglyphPosition glyphs[100];
-	const char* text = "This is longer chunk of text.\n  \n  Would have used lorem ipsum but she    was busy jumping over the lazy dog with the fox and all the men who came to the aid of the party.";
+	const char* text = "This is longer chunk of text.\n  \n  Would have used lorem ipsum but she    was busy jumping over the lazy dog with the fox and all the men who came to the aid of the party.🎉";
 	const char* start;
 	const char* end;
 	int nrows, i, nglyphs, j, lnum = 0;
@@ -1191,8 +1202,8 @@ static void flipHorizontal(unsigned char* image, int w, int h, int stride)
 {
 	int i = 0, j = h-1, k;
 	while (i < j) {
-		unsigned char* ri = &image[i * stride];		
-		unsigned char* rj = &image[j * stride];		
+		unsigned char* ri = &image[i * stride];
+		unsigned char* rj = &image[j * stride];
 		for (k = 0; k < w*4; k++) {
 			unsigned char t = ri[k];
 			ri[k] = rj[k];
@@ -1217,4 +1228,3 @@ void saveScreenShot(int w, int h, int premult, const char* name)
  	stbi_write_png(name, w, h, 4, image, w*4);
  	free(image);
 }
-

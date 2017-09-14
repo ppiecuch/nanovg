@@ -1,3 +1,0 @@
-#!/bin/bash
-export PATH=/bin:/sbin:/usr/bin
-bin/premake4-osx gmake && make -C build/ && open build/
