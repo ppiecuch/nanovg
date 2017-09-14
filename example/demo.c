@@ -813,9 +813,15 @@ int loadDemoData(NVGcontext* vg, DemoData* data)
 	if (vg == NULL)
 		return -1;
 
+#ifdef QT_GUI_LIB
+# define RESROOT ":"
+#else
+# define RESROOT ".."
+#endif
+
 	for (i = 0; i < 12; i++) {
 		char file[128];
-		snprintf(file, 128, "../example/images/image%d.jpg", i+1);
+		snprintf(file, 128, RESROOT "/example/images/image%d.jpg", i+1);
 		data->images[i] = nvgCreateImage(vg, file, 0);
 		if (data->images[i] == 0) {
 			printf("Could not load %s.\n", file);
@@ -823,22 +829,22 @@ int loadDemoData(NVGcontext* vg, DemoData* data)
 		}
 	}
 
-	data->fontIcons = nvgCreateFont(vg, "icons", "../example/entypo.ttf");
+	data->fontIcons = nvgCreateFont(vg, "icons", RESROOT "/example/entypo.ttf");
 	if (data->fontIcons == -1) {
 		printf("Could not add font icons.\n");
 		return -1;
 	}
-	data->fontNormal = nvgCreateFont(vg, "sans", "../example/Roboto-Regular.ttf");
+	data->fontNormal = nvgCreateFont(vg, "sans", RESROOT "/example/Roboto-Regular.ttf");
 	if (data->fontNormal == -1) {
 		printf("Could not add font italic.\n");
 		return -1;
 	}
-	data->fontBold = nvgCreateFont(vg, "sans-bold", "../example/Roboto-Bold.ttf");
+	data->fontBold = nvgCreateFont(vg, "sans-bold", RESROOT "/example/Roboto-Bold.ttf");
 	if (data->fontBold == -1) {
 		printf("Could not add font bold.\n");
 		return -1;
 	}
-	data->fontEmoji = nvgCreateFont(vg, "emoji", "../example/NotoEmoji-Regular.ttf");
+	data->fontEmoji = nvgCreateFont(vg, "emoji", RESROOT "/example/NotoEmoji-Regular.ttf");
 	if (data->fontEmoji == -1) {
 		printf("Could not add font emoji.\n");
 		return -1;

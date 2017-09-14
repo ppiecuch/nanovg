@@ -220,6 +220,12 @@ public slots:
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    QSurfaceFormat format;
+    format.setAlphaBufferSize(8);
+    format.setStencilBufferSize(8);
+    QSurfaceFormat::setDefaultFormat(format);
+
     Window w;
     w.resize(1024, 768);
     w.show();

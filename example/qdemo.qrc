@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/res">
+    <qresource prefix="/example">
         <file>entypo.ttf</file>
         <file>NotoEmoji-Regular.ttf</file>
         <file>Roboto-Bold.ttf</file>
