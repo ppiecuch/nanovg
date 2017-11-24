@@ -1027,7 +1027,7 @@ static void stbi__float_postprocess(float *result, int *x, int *y, int *comp, in
 extern "C" {
 # endif
     long qFileSize(const char *filename);
-    long qReadFile(const char *filename, char *buffer, long maxSize);
+    long qReadFile(const char *filename, unsigned char *buffer, long maxSize);
 # ifdef __cplusplus
 }
 # endif

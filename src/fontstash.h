@@ -875,7 +875,7 @@ error:
 extern "C" {
 # endif
  long qFileSize(const char *filename);
- long qReadFile(const char *filename, char *buffer, long maxSize);
+ long qReadFile(const char *filename, unsigned char *buffer, long maxSize);
 # ifdef __cplusplus
 }
 # endif
