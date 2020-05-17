@@ -509,12 +509,17 @@ static int glnvg__renderCreate(void* uptr)
 	// see the following discussion: https://github.com/memononen/nanovg/issues/46
 	static const char* shaderHeader =
 #if defined NANOVG_GL2
+		"#version 120\n"
 		"#define NANOVG_GL2 1\n"
 #elif defined NANOVG_GL3
 		"#version 150 core\n"
 		"#define NANOVG_GL3 1\n"
 #elif defined NANOVG_GLES2
+# if defined(__ANDROID__) || TARGET_OS_IPHONE
 		"#version 100\n"
+# else
+		"#version 120\n"
+# endif
 		"#define NANOVG_GL2 1\n"
 #elif defined NANOVG_GLES3
 		"#version 300 es\n"

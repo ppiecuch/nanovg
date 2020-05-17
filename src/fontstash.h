@@ -38,6 +38,14 @@ enum FONSalign {
 	FONS_ALIGN_BASELINE	= 1<<6, // Default
 };
 
+enum FONSeffectType {
+    FONS_EFFECT_NONE = 0,
+    FONS_EFFECT_BLUR = 1,
+    FONS_EFFECT_GROW = 2,
+    FONS_EFFECT_DISTANCE_FIELD = 3,
+    FONS_EFFECT_DISTANCE_FIELD_FAST = 4,
+};
+
 enum FONSglyphBitmap {
 	FONS_GLYPH_BITMAP_OPTIONAL = 1,
 	FONS_GLYPH_BITMAP_REQUIRED = 2,
@@ -147,10 +155,21 @@ void fonsDrawDebug(FONScontext* s, float x, float y);
 
 #ifdef FONS_USE_FREETYPE
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_ADVANCES_H
+#if defined __has_include
+# if __has_include (<FreeTypeAmalgam.h>)
+#  include <FreeTypeAmalgam.h>
+# endif
+#elif defined(FONS_HAS_FREETYPE_AMALGAM)
+# include <FreeTypeAmalgam.h>
+#else
+# include <ft2build.h>
+# include FT_FREETYPE_H
+# include FT_ADVANCES_H
+#endif
 #include <math.h>
+
+#define SDF_IMPLEMENTATION
+#include "fontstash/sdf.h"
 
 struct FONSttFontImpl {
 	FT_Face font;
